@@ -1,0 +1,19 @@
+{
+    "name": "ashraafdev/cloudinary-laravel",
+    "description": "Cloudinary Adapter for Laravel",
+    "type": "project",
+    "autoload": {
+        "psr-4": {
+            "Ashraafdev\\CloudinaryLaravel\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Achraf Hebboul"
+        }
+    ],
+    "require": {
+        "league/flysystem": "3.0",
+        "cloudinary/cloudinary_php": "^2.12"
+    }
+}
