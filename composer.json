@@ -1,7 +1,7 @@
 {
     "name": "ashraafdev/cloudinary-laravel",
     "description": "Cloudinary Adapter for Laravel",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "minimum-stability": "stable",
     "autoload": {
