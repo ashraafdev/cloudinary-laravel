@@ -15,7 +15,7 @@
         }
     ],
     "require": {
-        "league/flysystem": "3.0",
+        "league/flysystem": "3.0.0",
         "cloudinary/cloudinary_php": "^2.12"
     }
 }
