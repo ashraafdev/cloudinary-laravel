@@ -2,6 +2,7 @@
     "name": "ashraafdev/cloudinary-laravel",
     "description": "Cloudinary Adapter for Laravel",
     "type": "project",
+    "license": "MIT",
     "autoload": {
         "psr-4": {
             "Ashraafdev\\CloudinaryLaravel\\": "src/"
