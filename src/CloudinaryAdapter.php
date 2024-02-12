@@ -7,7 +7,9 @@ use Cloudinary\Api\Upload\UploadApi;
 use League\Flysystem\Config;
 use League\Flysystem\FilesystemAdapter as FileSystemAdapter;
 use Cloudinary\Configuration\Configuration;
+use Exception;
 use League\Flysystem\FileAttributes;
+use League\Flysystem\FilesystemException;
 
 class CloudinaryAdapter implements FileSystemAdapter {
 
@@ -72,15 +74,14 @@ class CloudinaryAdapter implements FileSystemAdapter {
     }
 
     /**
-     * @throws UnableToCreateDirectory
      * @throws FilesystemException
      */
     public function createDirectory(string $path, Config $config): void
     {
         try {
-            dd($this->readInstance->createFolder($path));
-        } catch (AuthorizationRequired $e) {
-            dd('hhh');
+            $this->readInstance->createFolder($path);
+        } catch (Exception $e) {
+            throw new FilesystemException($e->getMessage());
         }
     }
 
