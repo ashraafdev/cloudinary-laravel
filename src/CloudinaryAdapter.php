@@ -2,6 +2,7 @@
 namespace Ashraafdev\CloudinaryLaravel;
 
 use Cloudinary\Api\Admin\AdminApi;
+use Cloudinary\Api\Exception\AuthorizationRequired;
 use Cloudinary\Api\Upload\UploadApi;
 use League\Flysystem\Config;
 use League\Flysystem\FilesystemAdapter as FileSystemAdapter;
@@ -76,7 +77,11 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function createDirectory(string $path, Config $config): void
     {
-        dd($this->readInstance->createFolder($path));
+        try {
+            dd($this->readInstance->createFolder($path));
+        } catch (AuthorizationRequired $e) {
+            dd('hhh');
+        }
     }
 
     /**
