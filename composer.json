@@ -17,5 +17,8 @@
     "require": {
         "league/flysystem": "^3.0.0",
         "cloudinary/cloudinary_php": "^2.12"
+    },
+    "require-dev": {
+        "symfony/var-dumper": "^6.4"
     }
 }

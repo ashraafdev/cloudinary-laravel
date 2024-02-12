@@ -44,11 +44,13 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     public function read(string $path): string
     {
+        dd("hello world");
         return '';   
     }
 
     public function readStream(string $path)
     {
+        dd("hello world");
         return $this->readInstance->assetsByIds([$path]);
     }
 
