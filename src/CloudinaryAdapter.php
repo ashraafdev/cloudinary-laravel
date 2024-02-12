@@ -7,9 +7,9 @@ use Cloudinary\Api\Upload\UploadApi;
 use League\Flysystem\Config;
 use League\Flysystem\FilesystemAdapter as FileSystemAdapter;
 use Cloudinary\Configuration\Configuration;
+use Ashraafdev\CloudinaryLaravel\FileSystemException;
 use Exception;
 use League\Flysystem\FileAttributes;
-use League\Flysystem\FilesystemException;
 
 class CloudinaryAdapter implements FileSystemAdapter {
 
@@ -81,7 +81,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
         try {
             $this->readInstance->createFolder($path);
         } catch (Exception $e) {
-            throw new FilesystemException($e->getMessage());
+            throw new FileSystemException($e->getMessage());
         }
     }
 
