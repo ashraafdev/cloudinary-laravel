@@ -18,7 +18,6 @@ class CloudinaryAdapter implements FileSystemAdapter {
     public function __construct(array $connectionConfig)
     {
         $this->configuration = Configuration::instance($connectionConfig);
-
         $this->uploadInstance = (new UploadApi($this->configuration));
         $this->readInstance = (new AdminApi($this->configuration));
     }
@@ -30,7 +29,25 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     public function directoryExists(string $path): bool
     {
-        return false;
+        $rootFolders = $this->readInstance->rootFolders()['folders'];
+        $listOfAllFolders = [];
+       
+        foreach ($rootFolders as $rootFolder) {
+            $listOfAllFolders[] = $rootFolder['path'];
+            $this->directoryExistsInSubFolder($rootFolder['path'], $listOfAllFolders);
+        }
+        
+        return in_array($path, $listOfAllFolders);
+    }
+
+    public function directoryExistsInSubFolder(string $folder, array &$listOfAllFolders)
+    {
+        $subFolders = $this->readInstance->subFolders($folder)['folders'];
+
+        foreach ($subFolders as $subFolder) {
+            $listOfAllFolders[] = $subFolder['path'];
+            $this->directoryExistsInSubFolder($subFolder['path'], $listOfAllFolders);
+        }
     }
 
     public function write(string $path, string $contents, Config $config): void
@@ -76,7 +93,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
     /**
      * @throws FileSystemException
      */
-    public function createDirectory(string $path, Config $config): void
+    public function createDirectory(string $path, Config $config = null): void
     {
         try {
             $this->readInstance->createFolder($path);
