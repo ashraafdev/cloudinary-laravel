@@ -76,7 +76,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function createDirectory(string $path, Config $config): void
     {
-        $this->readInstance->createFolder($path);
+        dd($this->readInstance->createFolder($path));
     }
 
     /**
