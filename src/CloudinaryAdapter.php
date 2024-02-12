@@ -12,10 +12,9 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     protected $configuration, $connectionConfig, $uploadInstance, $readInstance;
 
-    public function __construct(array $connetionConfig)
+    public function __construct(array $connectionConfig)
     {
-        $this->connectionConfig = $connetionConfig;
-        $this->configuration = Configuration::instance($this->connectionConfig);
+        $this->configuration = Configuration::instance($connectionConfig);
 
         $this->uploadInstance = (new UploadApi($this->configuration));
         $this->readInstance = (new AdminApi($this->configuration));
