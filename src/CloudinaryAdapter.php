@@ -1,5 +1,4 @@
 <?php
-
 namespace Ashraafdev\CloudinaryLaravel;
 
 use Cloudinary\Api\Admin\AdminApi;
@@ -9,7 +8,7 @@ use League\Flysystem\FilesystemAdapter as FileSystemAdapter;
 use Cloudinary\Configuration\Configuration;
 use League\Flysystem\FileAttributes;
 
-class CloudinaryAdapater implements FileSystemAdapter {
+class CloudinaryAdapter implements FileSystemAdapter {
 
     protected $configuration, $connectionConfig, $uploadInstance, $readInstance;
 
