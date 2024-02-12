@@ -45,7 +45,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
     public function read(string $path): string
     {
         dd($this->readInstance->ping());
-        return '';   
+        //return '';   
     }
 
     public function readStream(string $path)
