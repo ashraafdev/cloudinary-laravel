@@ -74,7 +74,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
     }
 
     /**
-     * @throws FilesystemException
+     * @throws FileSystemException
      */
     public function createDirectory(string $path, Config $config): void
     {
