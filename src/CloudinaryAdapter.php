@@ -10,6 +10,7 @@ use Cloudinary\Configuration\Configuration;
 use Ashraafdev\CloudinaryLaravel\Exception\FileSystemException;
 use Exception;
 use League\Flysystem\FileAttributes;
+use Cloudinary\Api\Exception\NotFound;
 
 class CloudinaryAdapter implements FileSystemAdapter {
 
@@ -24,7 +25,12 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     public function fileExists(string $path): bool
     {
-        return false;
+        try {
+            $this->readInstance->asset($path);
+            return true;
+        } catch (NotFound $e) {
+            return false;
+        }
     }
 
     public function directoryExists(string $path): bool
