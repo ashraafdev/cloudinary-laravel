@@ -1,6 +1,6 @@
 <?php
 
-namespace Ashraafdev\CloudinaryLaravel;
+namespace Ashraafdev\CloudinaryLaravel\Exception;
 
 use Throwable;
 use Exception;

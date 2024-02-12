@@ -7,7 +7,7 @@ use Cloudinary\Api\Upload\UploadApi;
 use League\Flysystem\Config;
 use League\Flysystem\FilesystemAdapter as FileSystemAdapter;
 use Cloudinary\Configuration\Configuration;
-use Ashraafdev\CloudinaryLaravel\FileSystemException;
+use Ashraafdev\CloudinaryLaravel\Exception\FileSystemException;
 use Exception;
 use League\Flysystem\FileAttributes;
 
