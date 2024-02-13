@@ -95,7 +95,10 @@ class CloudinaryAdapter implements FileSystemAdapter {
      * @throws FilesystemException
      */
     public function delete(string $path): void {
-
+        if (!$this->fileExists($path)) throw new NotFound("File Not Exists!");
+        
+        $response = $this->uploadInstance->destroy($path);
+        if ($response instanceof ApiError) throw new FileSystemException("Can't Delete the File!");
     }
 
     /**
