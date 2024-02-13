@@ -12,6 +12,7 @@ use Exception;
 use League\Flysystem\FileAttributes;
 use Cloudinary\Api\Exception\NotFound;
 use Cloudinary\Api\Exception\AlreadyExists;
+use Cloudinary\Api\Exception\ApiError;
 
 class CloudinaryAdapter implements FileSystemAdapter {
 
@@ -67,24 +68,14 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     public function writeStream(string $path, $contents, Config $config): void
     {
-        $result = null;
-        
-       
         if ($this->fileExists($path)) throw new AlreadyExists("File Already Exists!");
-        
-        dd("hi");
 
-        $result = $this->uploadInstance->upload($contents, [
+        $response = $this->uploadInstance->upload($contents, [
             'public_id' => $path,
             'resource_type' => 'auto',
         ]);
 
-        dd($result);
-
-      
-        /* $this->uploadInstance->upload($contents, [
-            'public_id' => $path,
-        ]); */
+        if ($response instanceof ApiError) throw new FileSystemException("Can't Upload the File!");
     }
 
     public function read(string $path): string
