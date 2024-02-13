@@ -61,7 +61,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
     {
         $tempFile = tmpfile();
         fwrite($tempFile, $contents);
-        
+
         $this->writeStream($path, $tempFile, $config);
     }
 
@@ -69,18 +69,19 @@ class CloudinaryAdapter implements FileSystemAdapter {
     {
         $result = null;
         
-        try {
-            $result = $this->uploadInstance->upload($contents, [
-                'public_id' => $path,
-                'resource_type' => 'auto',
-            ]);
+       
+        if ($this->fileExists($path)) throw new AlreadyExists("File Already Exists!");
+        
+        dd("hi");
 
-            dd($result);
+        $result = $this->uploadInstance->upload($contents, [
+            'public_id' => $path,
+            'resource_type' => 'auto',
+        ]);
 
-        } catch (Exception $e) {
-            dd($result, $e);
-        }
+        dd($result);
 
+      
         /* $this->uploadInstance->upload($contents, [
             'public_id' => $path,
         ]); */
