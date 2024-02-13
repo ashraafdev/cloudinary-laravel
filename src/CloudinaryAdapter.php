@@ -58,14 +58,16 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     public function write(string $path, string $contents, Config $config): void
     {
-        $this->writeStream($path, $contents, $config);
+        dd('simple write function ran ok!');
+        /* $this->writeStream($path, $contents, $config); */
     }
 
     public function writeStream(string $path, $contents, Config $config): void
     {
-        $this->uploadInstance->upload($contents, [
+        dd('stream write function ran ok!');
+        /* $this->uploadInstance->upload($contents, [
             'public_id' => $path,
-        ]);
+        ]); */
     }
 
     public function read(string $path): string
