@@ -13,6 +13,7 @@ use League\Flysystem\FileAttributes;
 use Cloudinary\Api\Exception\NotFound;
 use Cloudinary\Api\Exception\AlreadyExists;
 use Cloudinary\Api\Exception\ApiError;
+use Cloudinary\Asset\Media;  
 
 class CloudinaryAdapter implements FileSystemAdapter {
 
@@ -80,14 +81,22 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     public function read(string $path): string
     {
-        dd($this->readInstance->ping());
-        //return '';   
+        try {
+            $fileData = file_get_contents($this->readInstance->asset($path)['url']);
+            return (string) $fileData;
+        } catch (Exception $e) {
+            throw new FileSystemException($e->getMessage());
+        }
     }
 
     public function readStream(string $path)
     {
-        dd($this->readInstance->ping());
-        return $this->readInstance->assetsByIds([$path]);
+        try {
+            $fileStream = fopen($this->readInstance->asset($path)['url'], 'r');
+            return $fileStream;
+        } catch (Exception $e) {
+            throw new FileSystemException($e->getMessage());
+        }
     }
 
     /**
