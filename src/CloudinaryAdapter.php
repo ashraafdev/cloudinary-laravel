@@ -11,6 +11,7 @@ use Ashraafdev\CloudinaryLaravel\Exception\FileSystemException;
 use Exception;
 use League\Flysystem\FileAttributes;
 use Cloudinary\Api\Exception\NotFound;
+use Cloudinary\Api\Exception\AlreadyExists;
 
 class CloudinaryAdapter implements FileSystemAdapter {
 
@@ -58,13 +59,28 @@ class CloudinaryAdapter implements FileSystemAdapter {
 
     public function write(string $path, string $contents, Config $config): void
     {
-        dd('simple write function ran ok!');
-        /* $this->writeStream($path, $contents, $config); */
+        $tempFile = tmpfile();
+        fwrite($tempFile, $contents);
+        
+        $this->writeStream($path, $tempFile, $config);
     }
 
     public function writeStream(string $path, $contents, Config $config): void
     {
-        dd('stream write function ran ok!');
+        $result = null;
+        
+        try {
+            $result = $this->uploadInstance->upload($contents, [
+                'public_id' => $path,
+                'resource_type' => 'auto',
+            ]);
+
+            dd($result);
+
+        } catch (Exception $e) {
+            dd($result, $e);
+        }
+
         /* $this->uploadInstance->upload($contents, [
             'public_id' => $path,
         ]); */
