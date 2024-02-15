@@ -115,7 +115,31 @@ class CloudinaryAdapter implements FileSystemAdapter {
      * @throws FilesystemException
      */
     public function deleteDirectory(string $path): void {
+        if (!$this->directoryExists($path)) throw new NotFound("Directory Not Found");
+        
+        $subFolders = (array) $this->readInstance->subFolders($path)['folders'];
 
+        if (count($subFolders)) {
+            foreach ($subFolders as $subFolder) {
+                $this->deleteDirectory($subFolder['path']);
+            }
+        }
+
+        $allResourcesImages = (array) $this->readInstance->assets(["type" => "upload", 'resource_type' => 'image', "prefix" => $path, "max_results" => 9999999999])["resources"];
+        $allResourcesVideos = (array) $this->readInstance->assets(["type" => "upload", 'resource_type' => 'video', "prefix" => $path, "max_results" => 9999999999])["resources"];
+        $allResourcesRaw = (array) $this->readInstance->assets(["type" => "upload", 'resource_type' => 'raw', "prefix" => $path, "max_results" => 9999999999])["resources"];
+
+        $allResources = array_merge($allResourcesImages, $allResourcesVideos, $allResourcesRaw);
+
+        if (count($allResources)) {
+            $publicIds = [];
+            foreach ($allResources as $resource) {
+                $publicIds[] = $resource['public_id'];
+               $this->readInstance->deleteAssets($publicIds);
+            }
+        }
+
+        $this->readInstance->deleteFolder($path);
     }
 
     /**
