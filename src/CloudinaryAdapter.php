@@ -160,7 +160,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function setVisibility(string $path, string $visibility): void
     {
-
+        throw new Exception("Visibility is not available in Cloudinary");
     }
 
     /**
@@ -169,7 +169,8 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function visibility(string $path): FileAttributes
     {
-        return new FileAttributes('', 0, null, null, null, []);
+        $assetsData = (array) $this->readInstance->asset($path);
+        return $this->assetFileAttributes($assetsData);
     }
 
     /**
