@@ -67,7 +67,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
         $this->writeStream($path, $tempFile, $config);
     }
 
-    public function writeStream(string $path, $contents, Config $config): void
+    public function writeStream(string $path, $contents, Config $config = null): void
     {
         if ($this->fileExists($path)) throw new AlreadyExists("File Already Exists!");
 
@@ -229,7 +229,8 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function move(string $source, string $destination, Config $config): void
     {
-
+        $this->copy($source, $destination, $config);
+        $this->delete($source);
     }
 
     /**
@@ -238,6 +239,7 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function copy(string $source, string $destination, Config $config): void
     {
-
+        $fileResource = $this->readStream($source);
+        $this->writeStream($destination, $fileResource);
     }
 }
