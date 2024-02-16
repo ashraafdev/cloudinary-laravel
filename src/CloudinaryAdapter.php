@@ -218,9 +218,9 @@ class CloudinaryAdapter implements FileSystemAdapter {
      *
      * @throws FilesystemException
      */
-    public function listContents(string $path, bool $deep): iterable
+    public function listContents(string $path, bool $deep = false): iterable
     {
-        return [];
+        return (array) $this->readInstance->assets(["type" => "upload", "prefix" => $path, 'max_results' => 99999999])["resources"];
     }
 
     /**
