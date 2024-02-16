@@ -178,8 +178,19 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function mimeType(string $path): FileAttributes
     {
-        return new FileAttributes('', 0, null, null, null, []);
+        $assetsData = (array) $this->readInstance->asset($path);
+        return $this->assetFileAttributes($assetsData);
     }
+
+    public function assetFileAttributes(array $resource): FileAttributes {
+        return new FileAttributes(
+            $resource['public_id'],
+            $resource['bytes'],
+            isset($resource['visibility']) ?: 'public',
+            strtotime($resource['created_at']),
+            sprintf("%s/%s", $resource['resource_type'], $resource['derived'][0]['format'])
+        );
+    }   
 
     /**
      * @throws UnableToRetrieveMetadata
@@ -187,7 +198,8 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function lastModified(string $path): FileAttributes
     {
-        return new FileAttributes('', 0, null, null, null, []);
+        $assetsData = (array) $this->readInstance->asset($path);
+        return $this->assetFileAttributes($assetsData);
     }
 
     /**
@@ -196,7 +208,8 @@ class CloudinaryAdapter implements FileSystemAdapter {
      */
     public function fileSize(string $path): FileAttributes
     {
-        return new FileAttributes('', 0, null, null, null, []);
+        $assetsData = (array) $this->readInstance->asset($path);
+        return $this->assetFileAttributes($assetsData);
     }
 
     /**
