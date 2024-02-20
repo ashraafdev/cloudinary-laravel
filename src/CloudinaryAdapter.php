@@ -17,7 +17,7 @@ use Cloudinary\Asset\Media;
 
 class CloudinaryAdapter implements FileSystemAdapter {
 
-    protected $configuration, $connectionConfig, $uploadInstance, $readInstance;
+    public $configuration, $connectionConfig, $uploadInstance, $readInstance;
 
     public function __construct(array $connectionConfig)
     {
@@ -31,6 +31,8 @@ class CloudinaryAdapter implements FileSystemAdapter {
         try {
             $this->readInstance->asset($path);
             return true;
+        } catch (AuthorizationRequired $e) {
+            throw new FileSystemException('Authorization Needed!');
         } catch (NotFound $e) {
             return false;
         }

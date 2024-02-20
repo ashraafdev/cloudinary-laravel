@@ -4,9 +4,11 @@ namespace AshraafDev\Tests\CloudinaryLaravel;
 
 use Ashraafdev\CloudinaryLaravel;
 use Ashraafdev\CloudinaryLaravel\CloudinaryAdapter;
+use Ashraafdev\CloudinaryLaravel\Exception\FileSystemException;
 use PHPUnit\Framework\TestCase;
 
-class CloudinaryAdapterTest extends TestCase {
+class CloudinaryAdapterTest extends TestCase
+{
     /* public function testTrueIsTrue() {
         return $this->assertTrue(true);
     } */
@@ -17,7 +19,7 @@ class CloudinaryAdapterTest extends TestCase {
 
     public function testFileExistsReturnTrue()
     {
-        $cloudinaryAdapter = new CloudinaryAdapter([
+        $cloudinaryAdapter1 = new CloudinaryAdapter([
             "cloud" => [
                 "cloud_name" => env('cloud_name'),
                 "api_key" => env('api_key'),
@@ -29,12 +31,13 @@ class CloudinaryAdapterTest extends TestCase {
         ]);
 
         $this->assertTrue(
-            $cloudinaryAdapter->fileExists('cld-sample-5'),
+            $cloudinaryAdapter1->fileExists('cld-sample-5'),
         );
     }
 
-    public function testFileExistsReturnFalse() {
-        $cloudinaryAdapter = new CloudinaryAdapter([
+    public function testFileExistsReturnFalse()
+    {
+        $cloudinaryAdapter2 = new CloudinaryAdapter([
             "cloud" => [
                 "cloud_name" => env('cloud_name'),
                 "api_key" => env('api_key'),
@@ -46,8 +49,26 @@ class CloudinaryAdapterTest extends TestCase {
         ]);
 
         $this->assertFalse(
-            $cloudinaryAdapter->fileExists('test-something-not-exists-in-cloudinary'),
+            $cloudinaryAdapter2->fileExists('test-something-not-exists-in-cloudinary'),
         );
+    } 
+
+    public function testFileExistsThrowAuthorizationException()
+    {
+
+        $this->expectExceptionMessage("Authorization Needed!");
+
+        $cloudinaryAdapterTest3 = new CloudinaryAdapter([
+            "cloud" => [
+                "cloud_name" => "something that throw FileSystemException",
+                "api_key" => env('api_key'),
+                "api_secret" => env('api_secret'),
+            ],
+            "url" => [
+                "secure" => env('secure'),
+            ]
+        ]);
+
+        $cloudinaryAdapterTest3->fileExists('cld-sample-5');
     }
 }
-?>
